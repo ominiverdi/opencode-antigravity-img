@@ -1,5 +1,6 @@
 import { homedir } from "os";
 import { join } from "path";
+import { platform } from "process";
 
 // OAuth credentials (same as antigravity-auth plugin)
 export const ANTIGRAVITY_CLIENT_ID = "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com";
@@ -24,14 +25,23 @@ export const CLOUDCODE_METADATA = {
 export const IMAGE_MODEL = "gemini-3-pro-image";
 export const IMAGE_GENERATION_TIMEOUT_MS = 120_000;
 
-// Config file paths
+// Config directory (match opencode-antigravity-auth behavior)
+function getConfigDir(): string {
+  if (platform === "win32") {
+    return join(process.env.APPDATA || join(homedir(), "AppData", "Roaming"), "opencode");
+  }
+  const xdgConfig = process.env.XDG_CONFIG_HOME || join(homedir(), ".config");
+  return join(xdgConfig, "opencode");
+}
+
+// Config file paths (primary path matches auth plugin, fallback for legacy)
 export const CONFIG_PATHS = [
-  join(homedir(), ".config", "opencode", "antigravity-accounts.json"),
+  join(getConfigDir(), "antigravity-accounts.json"),
   join(homedir(), ".opencode", "antigravity-accounts.json"),
 ];
 
 // Command file for opencode discovery
-export const COMMAND_DIR = join(homedir(), ".config", "opencode", "commands");
+export const COMMAND_DIR = join(getConfigDir(), "commands");
 export const COMMAND_FILE = join(COMMAND_DIR, "generate-image.md");
 export const COMMAND_CONTENT = `# Generate Image
 

@@ -31,7 +31,7 @@ opencode
 # Use the authenticate command from antigravity-auth
 ```
 
-This creates `~/.config/opencode/antigravity-accounts.json` with your credentials.
+This creates `antigravity-accounts.json` in your opencode config directory.
 
 ## Tools
 
@@ -41,7 +41,7 @@ Generate an image from a text prompt.
 
 **Arguments:**
 - `prompt` (required): Text description of the image to generate
-- `filename` (optional): Output filename (default: `generated_<timestamp>.png`)
+- `filename` (optional): Output filename (default: `generated_<timestamp>.jpg`)
 - `output_dir` (optional): Output directory (default: current working directory)
 
 **Example:**
@@ -72,7 +72,7 @@ Check the remaining quota for the Gemini 3 Pro Image model.
 
 ## Quota
 
-Image generation uses a separate quota from text models. The quota resets every 5 hours. Use the `image_quota` tool to check your remaining quota before generating images.
+Image generation uses a separate quota from text models. The quota resets every 5 hours. Use the `image_quota` tool to check your remaining quota.
 
 ## Troubleshooting
 
@@ -81,7 +81,7 @@ Image generation uses a separate quota from text models. The quota resets every 
 Make sure you've:
 1. Installed `opencode-antigravity-auth`
 2. Authenticated with your Google account
-3. The credentials file exists at `~/.config/opencode/antigravity-accounts.json`
+3. The credentials file `antigravity-accounts.json` exists in your opencode config directory
 
 ### "Rate limited" or generation fails
 

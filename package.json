@@ -19,6 +19,11 @@
   ],
   "author": "Lorenzo Becchi (ominiverdi)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ominiverdi/opencode-antigravity-img.git"
+  },
+  "homepage": "https://github.com/ominiverdi/opencode-antigravity-img#readme",
   "private": false,
   "devDependencies": {
     "@types/bun": "latest",

@@ -1,6 +1,6 @@
 {
   "name": "opencode-antigravity-img",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "OpenCode plugin for Gemini image generation via Antigravity/CloudCode API",
   "main": "src/index.ts",
   "type": "module",

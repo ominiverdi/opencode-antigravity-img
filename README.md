@@ -72,7 +72,7 @@ Check the remaining quota for the Gemini 3 Pro Image model.
 
 ## Quota
 
-Image generation uses a separate quota from text models. The quota typically resets daily. Use the `image_quota` tool to check your remaining quota before generating images.
+Image generation uses a separate quota from text models. The quota resets every 5 hours. Use the `image_quota` tool to check your remaining quota before generating images.
 
 ## Troubleshooting
 

@@ -1,0 +1,32 @@
+{
+  "name": "opencode-antigravity-img",
+  "version": "0.1.0",
+  "description": "OpenCode plugin for Gemini image generation via Antigravity/CloudCode API",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "opencode",
+    "plugin",
+    "antigravity",
+    "gemini",
+    "image",
+    "generation",
+    "google-cloud"
+  ],
+  "author": "Lorenzo Becchi (ominiverdi)",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.0.0",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.1.15",
+    "opencode-antigravity-auth": "^1.2.8"
+  }
+}

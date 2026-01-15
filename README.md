@@ -1,5 +1,9 @@
 # opencode-antigravity-img
 
+[![npm version](https://img.shields.io/npm/v/opencode-antigravity-img.svg)](https://www.npmjs.com/package/opencode-antigravity-img)
+[![npm downloads](https://img.shields.io/npm/dm/opencode-antigravity-img.svg)](https://www.npmjs.com/package/opencode-antigravity-img)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 OpenCode plugin for generating images using Gemini 3 Pro Image model via Google's Antigravity/CloudCode API.
 
 ## Requirements

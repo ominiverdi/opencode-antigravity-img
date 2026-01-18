@@ -43,10 +43,12 @@ Generate an image from a text prompt.
 - `prompt` (required): Text description of the image to generate
 - `filename` (optional): Output filename (default: `generated_<timestamp>.jpg`)
 - `output_dir` (optional): Output directory (default: current working directory)
+- `aspect_ratio` (optional): Image aspect ratio. Supported values: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9` (default: `1:1`)
+- `image_size` (optional): Image resolution. Supported values: `1K`, `2K`, `4K` (default: `1K`)
 
 **Example:**
 ```
-Generate an image of a sunset over mountains with a lake in the foreground
+Generate a 16:9 landscape image of a sunset over mountains with a lake in the foreground
 ```
 
 **Output:**
@@ -66,9 +68,23 @@ Check the remaining quota for the Gemini 3 Pro Image model.
 ## Image Details
 
 - **Model**: Gemini 3 Pro Image
-- **Resolution**: 1408x768 pixels
-- **Format**: JPEG (typically 600KB - 1MB)
+- **Resolutions**: 
+  - `1K`: 1024x1024 (default)
+  - `2K`: 2048x2048
+  - `4K`: 4096x4096
+- **Aspect ratios**: `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`
+- **Format**: JPEG (always, regardless of filename extension)
 - **Generation time**: 10-30 seconds
+
+## Unsupported Parameters
+
+The following parameters are documented in Google's API but are **not supported** by the Gemini 3 Pro Image model (they are Imagen-specific):
+
+- `personGeneration` - Control generation of people in images
+- `outputMimeType` - Output format selection (always returns JPEG)
+- `compressionQuality` - JPEG compression control
+
+These parameters may work with Imagen models but have no effect with Gemini 3 Pro Image.
 
 ## Quota
 

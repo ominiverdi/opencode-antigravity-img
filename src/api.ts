@@ -15,6 +15,7 @@ import type {
   CloudCodeQuotaResponse,
   GenerateContentResponse,
   ImageGenerationResult,
+  ImageGenerationOptions,
   QuotaInfo,
 } from "./types";
 
@@ -150,11 +151,33 @@ export async function getImageModelQuota(account: Account): Promise<QuotaInfo | 
 }
 
 /**
+ * Build imageConfig from options
+ */
+function buildImageConfig(options?: ImageGenerationOptions): ImageGenerationOptions | undefined {
+  if (!options) return undefined;
+
+  const { aspectRatio, imageSize } = options;
+
+  // Only include if at least one option is set
+  if (!aspectRatio && !imageSize) {
+    return undefined;
+  }
+
+  const imageConfig: ImageGenerationOptions = {};
+
+  if (aspectRatio) imageConfig.aspectRatio = aspectRatio;
+  if (imageSize) imageConfig.imageSize = imageSize;
+
+  return imageConfig;
+}
+
+/**
  * Generate an image using the Gemini 3 Pro Image model
  */
 export async function generateImage(
   account: Account,
-  prompt: string
+  prompt: string,
+  options?: ImageGenerationOptions
 ): Promise<ImageGenerationResult> {
   try {
     // Get access token
@@ -172,6 +195,7 @@ export async function generateImage(
     }
 
     // Build request
+    const imageConfig = buildImageConfig(options);
     const requestBody = {
       project: projectId,
       requestId: `req_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
@@ -183,6 +207,7 @@ export async function generateImage(
         session_id: `sess_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         generationConfig: {
           responseModalities: ["TEXT", "IMAGE"],
+          ...(imageConfig && { imageConfig }),
         },
       },
     };

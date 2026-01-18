@@ -3,7 +3,7 @@ import * as fs from "fs/promises";
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from "fs";
 import { join, dirname } from "path";
 import { CONFIG_PATHS, COMMAND_DIR, COMMAND_FILE, COMMAND_CONTENT, IMAGE_MODEL } from "./constants";
-import type { AccountsConfig, Account } from "./types";
+import type { AccountsConfig, Account, ImageGenerationOptions, AspectRatio, ImageSize } from "./types";
 import { generateImage, getImageModelQuota } from "./api";
 
 // Create command file for opencode discovery
@@ -83,9 +83,17 @@ export const plugin: Plugin = async (ctx) => {
             .string()
             .optional()
             .describe("Output directory (default: current working directory)"),
+          aspect_ratio: tool.schema
+            .string()
+            .optional()
+            .describe("Aspect ratio: 1:1, 2:3, 3:2, 3:4, 4:3, 4:5, 5:4, 9:16, 16:9, 21:9 (default: 1:1)"),
+          image_size: tool.schema
+            .string()
+            .optional()
+            .describe("Image resolution: 1K, 2K, 4K (default: 1K)"),
         },
         async execute(args, context) {
-          const { prompt, filename, output_dir } = args;
+          const { prompt, filename, output_dir, aspect_ratio, image_size } = args;
 
           if (!prompt?.trim()) {
             return "Error: Please provide a prompt describing the image to generate.";
@@ -105,8 +113,13 @@ export const plugin: Plugin = async (ctx) => {
 
           context.metadata({ title: "Generating image..." });
 
+          // Build generation options
+          const options: ImageGenerationOptions = {};
+          if (aspect_ratio) options.aspectRatio = aspect_ratio as AspectRatio;
+          if (image_size) options.imageSize = image_size as ImageSize;
+
           // Generate image
-          const result = await generateImage(account, prompt);
+          const result = await generateImage(account, prompt, Object.keys(options).length > 0 ? options : undefined);
 
           if (!result.success || !result.imageData) {
             return `Error generating image: ${result.error || "Unknown error"}`;

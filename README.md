@@ -118,8 +118,8 @@ The plugin uses Google's CloudCode API with fallback endpoints:
 
 ## Related Plugins
 
-- [opencode-antigravity-auth](https://www.npmjs.com/package/opencode-antigravity-auth) - Authentication (required)
-- [opencode-antigravity-quota](https://www.npmjs.com/package/opencode-antigravity-quota) - Text model quota checking
+- [opencode-antigravity-auth](https://github.com/NoeFabris/opencode-antigravity-auth) - Authentication (required)
+- [opencode-antigravity-web](https://github.com/ominiverdi/opencode-antigravity-web) - Web search and URL reading
 
 ## License
 

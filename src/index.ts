@@ -72,13 +72,14 @@ export const plugin: Plugin = async (ctx) => {
         description:
           "Generate an image using Gemini 3 Pro Image model. " +
           "Provide a text prompt describing the image you want. " +
+          "IMPORTANT: Output is always JPEG format regardless of filename extension. " +
           "Returns the path to the generated image file.",
         args: {
           prompt: tool.schema.string().describe("Text description of the image to generate"),
           filename: tool.schema
             .string()
             .optional()
-            .describe("Output filename (default: generated_<timestamp>.png)"),
+            .describe("Output filename (default: generated_<timestamp>.jpg). Note: format is always JPEG regardless of extension"),
           output_dir: tool.schema
             .string()
             .optional()
@@ -125,10 +126,9 @@ export const plugin: Plugin = async (ctx) => {
             return `Error generating image: ${result.error || "Unknown error"}`;
           }
 
-          // Determine output path
+          // Determine output path (always JPEG regardless of extension)
           const dir = output_dir || ctx.directory;
-          const ext = result.mimeType === "image/png" ? "png" : "jpg";
-          const name = filename || `generated_${Date.now()}.${ext}`;
+          const name = filename || `generated_${Date.now()}.jpg`;
           const outputPath = join(dir, name);
 
           // Ensure directory exists

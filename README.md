@@ -33,6 +33,22 @@ opencode
 
 This creates `antigravity-accounts.json` in your opencode config directory.
 
+### Multi-Account Setup
+
+You can add multiple Google accounts for higher throughput and automatic failover:
+
+```bash
+opencode auth login  # repeat for each Google account
+```
+
+With multiple accounts the plugin will:
+- **Round-robin** between accounts, picking the least-recently-used one
+- **Auto-retry** with the next account if one fails (rate-limit, auth error, etc.)
+- **Track cooldowns** so rate-limited accounts are skipped for 5 minutes
+- **Show per-account quota** via the `image_quota` tool
+
+Single-account users see no behavior change.
+
 ## Tools
 
 ### generate_image
@@ -61,9 +77,14 @@ Check the remaining quota for the Gemini 3 Pro Image model.
 
 **Arguments:** None
 
-**Output:**
+**Output (single account):**
 - Visual progress bar showing remaining quota percentage
 - Time until quota resets
+
+**Output (multi-account):**
+- Per-account progress bars with quota percentage
+- Rate-limit status per account
+- Time until reset for each account
 
 ## Image Details
 
@@ -88,7 +109,9 @@ These parameters may work with Imagen models but have no effect with Gemini 3 Pr
 
 ## Quota
 
-Image generation uses a separate quota from text models. The quota resets every 5 hours. Use the `image_quota` tool to check your remaining quota.
+Image generation uses a separate quota from text models. The quota resets every 5 hours. Use the `image_quota` tool (or the `/antigravity-quota-img` command) to check your remaining quota.
+
+With multiple accounts, each account has its own independent quota. The plugin automatically rotates to the account with the most available quota.
 
 ## Troubleshooting
 
@@ -101,9 +124,10 @@ Make sure you've:
 
 ### "Rate limited" or generation fails
 
-- Wait a few seconds and try again
-- Check your quota with `image_quota`
-- The plugin automatically tries multiple endpoints
+- With multiple accounts, the plugin automatically retries with the next available account
+- Check your quota with `image_quota` to see per-account status
+- If all accounts are exhausted, wait a few minutes for cooldowns to expire
+- The plugin also tries multiple API endpoints per account
 
 ### Slow generation
 

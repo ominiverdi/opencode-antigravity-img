@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-02-14
+
+### Added
+- Round-robin account selection for multi-account setups (least-recently-used first)
+- Auto-retry with next account on any failure (rate-limit, auth, project ID errors)
+- Rate-limit tracking with 5-minute cooldown per account
+- Per-account quota breakdown in `image_quota` for multi-account configurations
+- Graceful error summary listing each account and its failure reason
+- `/antigravity-quota-img` command for opencode
+- Unit tests for account selection logic (15 test cases)
+
+### Changed
+- Account state (`lastUsed`, `rateLimitedUntil`) persisted to `antigravity-accounts.json`
+- Single-account users see no behavior change
+- Fix command directory from `commands/` to `command/` (matching opencode convention)
+- Command files now include YAML frontmatter with description
+
 ## [0.2.1] - 2026-01-28
 
 ### Fixed

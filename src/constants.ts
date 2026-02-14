@@ -40,13 +40,31 @@ export const CONFIG_PATHS = [
   join(homedir(), ".opencode", "antigravity-accounts.json"),
 ];
 
-// Command file for opencode discovery
-export const COMMAND_DIR = join(getConfigDir(), "commands");
+// Command files for opencode discovery (opencode uses "command" singular)
+export const COMMAND_DIR = join(getConfigDir(), "command");
+
 export const COMMAND_FILE = join(COMMAND_DIR, "generate-image.md");
-export const COMMAND_CONTENT = `# Generate Image
+export const COMMAND_CONTENT = `---
+description: Generate an image using Gemini 3 Pro Image model
+---
 
 Generate an image using Gemini 3 Pro Image model.
 
 Prompt: $PROMPT
 Output filename (optional): $FILENAME
+`;
+
+export const QUOTA_COMMAND_FILE = join(COMMAND_DIR, "antigravity-quota-img.md");
+export const QUOTA_COMMAND_CONTENT = `---
+description: Check Antigravity image generation quota for all configured accounts
+---
+
+Use the \`image_quota\` tool to check the current image generation quota status.
+
+This will show:
+- Gemini 3 Pro Image quota remaining per account
+- Visual progress bars for each account
+- Time until quota reset
+
+IMPORTANT: Display the tool output EXACTLY as it is returned. Do not summarize, reformat, or modify the output in any way.
 `;

@@ -213,6 +213,8 @@ export async function generateImage(
     };
 
     // Try each endpoint
+    let allRateLimited = true;
+
     for (const baseUrl of CLOUDCODE_FALLBACK_URLS) {
       try {
         const controller = new AbortController();
@@ -239,9 +241,12 @@ export async function generateImage(
             // Rate limited, try next endpoint
             continue;
           }
+          allRateLimited = false;
           const errorText = await response.text();
           return { success: false, error: `HTTP ${response.status}: ${errorText.slice(0, 200)}` };
         }
+
+        allRateLimited = false;
 
         // Parse SSE response
         const text = await response.text();
@@ -264,6 +269,7 @@ export async function generateImage(
 
         return result;
       } catch (err) {
+        allRateLimited = false;
         if (err instanceof Error && err.name === "AbortError") {
           continue; // Timeout, try next endpoint
         }
@@ -272,7 +278,7 @@ export async function generateImage(
       }
     }
 
-    return { success: false, error: "All endpoints failed" };
+    return { success: false, error: "All endpoints failed", isRateLimited: allRateLimited };
   } catch (error) {
     return {
       success: false,

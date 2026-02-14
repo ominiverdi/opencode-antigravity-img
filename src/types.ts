@@ -5,6 +5,8 @@ export interface Account {
   accessToken?: string;
   projectId?: string;
   managedProjectId?: string;
+  lastUsed?: number;
+  rateLimitedUntil?: number;
 }
 
 export interface AccountsConfig {
@@ -105,6 +107,7 @@ export interface ImageGenerationResult {
   mimeType?: string;
   sizeBytes?: number;
   error?: string;
+  isRateLimited?: boolean;
   quota?: {
     remainingPercent: number;
     resetTime: string;
